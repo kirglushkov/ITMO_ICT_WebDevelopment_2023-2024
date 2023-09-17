@@ -15,7 +15,7 @@ def handle_client(client_socket):
     while True:
         try:
             message = client_socket.recv(1024).decode()
-
+            print(message)
             if not message:
                 connected_clients.remove(client_socket)
                 client_socket.close()
