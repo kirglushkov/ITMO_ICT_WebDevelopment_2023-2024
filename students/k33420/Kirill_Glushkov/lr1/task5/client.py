@@ -1,6 +1,7 @@
 import socket
 import json
-
+import webbrowser
+import os
 def send_request(request):
     server_address = ('localhost', 8080)
     
@@ -12,7 +13,10 @@ def send_request(request):
     response = client_socket.recv(1024).decode('utf-8')
     
     print(response)
+    with open('response.html', 'w') as f:
+        f.write(response)
     
+    webbrowser.open('file://' + os.path.realpath('response.html'))
     client_socket.close()
 
 if __name__ == '__main__':
