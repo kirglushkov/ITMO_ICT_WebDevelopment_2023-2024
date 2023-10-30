@@ -19,8 +19,9 @@
   {% endfor %}
 </ul>
 
+{% if user.is_superuser %}
 <a href="{% url 'create_room' hotel_pk=hotel.pk %}">Add Room</a>
-
+{% endif %}
 <h2>Reserved Rooms</h2>
 <table>
   <thead>

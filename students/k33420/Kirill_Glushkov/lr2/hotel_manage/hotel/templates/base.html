@@ -14,7 +14,10 @@
         <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/hotels/all">Hotel List</a></li>
+            {% if user.is_superuser %}
             <li><a href="/hotels/create_hotel">create hotel</a></li>
+            {% endif %}
+
             {% if user.is_authenticated %}
             <!-- Display logout button or other authenticated content -->
             <a href="/logout">Logout</a>
