@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Views - My Documentation for lab 2</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Views";
+        var mkdocs_page_input_path = "views.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> My Documentation for lab 2
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../models/">Models</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../urls/">Urls</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Views</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_1">Описание файлов</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#viewspy">views.py</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#home_viewrequest">home_view(request)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#hotel_listrequest">hotel_list(request)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#add_reviewrequest-room_id">add_review(request, room_id)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#create_hotelrequest">create_hotel(request)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#view_hotelrequest-pk">view_hotel(request, pk)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#create_roomrequest-hotel_pk">create_room(request, hotel_pk)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#book_roomrequest-hotel_pk">book_room(request, hotel_pk)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#reservation_successrequest">reservation_success(request)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#registerrequest">register(request)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#login_viewrequest">login_view(request)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#logout_viewrequest">logout_view(request)</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">My Documentation for lab 2</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Views</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="django">Документация Django проекта</h1>
+<h2 id="_1">Описание файлов</h2>
+<h3 id="viewspy">views.py</h3>
+<h4 id="home_viewrequest">home_view(request)</h4>
+<pre><code class="language-python">def home_view(request):
+    reservations = Reservation.objects.filter(user=request.user)
+    return render(request, &quot;base.html&quot;, {&quot;reservations&quot;: reservations})
+</code></pre>
+<p>Описание: Этот view отображает домашнюю страницу. Он фильтрует бронирования по текущему пользователю и передает их в шаблон "base.html".</p>
+<h4 id="hotel_listrequest">hotel_list(request)</h4>
+<pre><code class="language-python">def hotel_list(request):
+    hotels = Hotel.objects.all()
+    return render(request, &quot;hotel_list.html&quot;, {&quot;hotels&quot;: hotels})
+</code></pre>
+<p>Описание: Этот view отображает список отелей. Он извлекает все отели из базы данных и передает их в шаблон "hotel_list.html".</p>
+<h4 id="add_reviewrequest-room_id">add_review(request, room_id)</h4>
+<pre><code class="language-python">@login_required(login_url=&quot;login&quot;)
+def add_review(request, room_id):
+    room = get_object_or_404(Room, id=room_id)
+    if request.method == &quot;POST&quot;:
+        comment = request.POST[&quot;comment&quot;]
+        rating = request.POST[&quot;rating&quot;]
+        review = Review(
+            user=request.user,
+            room=room,
+            comment=comment,
+            rating=rating,
+        )
+        print(review)
+        review.save()
+
+        return redirect(&quot;hotel_list&quot;)
+    return render(request, &quot;add_review.html&quot;, {&quot;room&quot;: room})
+</code></pre>
+<p>Описание: Этот view позволяет пользователю добавить отзыв о номере. Если запрос метод POST, то создается новый объект Review с данными от пользователя и сохраняется в базе данных. Затем пользователь перенаправляется на страницу списка отелей. Если запрос метод GET, то отображается шаблон "add_review.html" с передачей объекта комнаты в шаблон.</p>
+<h4 id="create_hotelrequest">create_hotel(request)</h4>
+<pre><code class="language-python">@login_required(login_url=&quot;login&quot;)
+def create_hotel(request):
+    if request.method == &quot;POST&quot;:
+        form = HotelForm(request.POST)
+        if form.is_valid():
+            hotel = form.save()
+            return redirect(&quot;view_hotel&quot;, pk=hotel.pk)
+    else:
+        form = HotelForm()
+    return render(request, &quot;create_hotel.html&quot;, {&quot;form&quot;: form})
+</code></pre>
+<p>Описание: Этот view позволяет пользователю создать новый отель. Если запрос метод POST, то форма формируется из данных запроса и проверяется на валидность. Если форма действительна, создается новый объект Hotel и сохраняется в базе данных, затем пользователь перенаправляется на страницу просмотра отеля. Если запрос метод GET, то отображается шаблон "create_hotel.html" с передачей формы в шаблон.</p>
+<h4 id="view_hotelrequest-pk">view_hotel(request, pk)</h4>
+<pre><code class="language-python">@login_required(login_url=&quot;login&quot;)
+def view_hotel(request, pk):
+    hotel = Hotel.objects.get(pk=pk)
+    rooms = Room.objects.filter(hotel=hotel)
+    reviews = Review.objects.all()
+    now = datetime.datetime.now()
+    last_month_start = now.replace(day=1) - datetime.timedelta(days=1)
+    last_month_end = last_month_start.replace(day=1)
+
+    reservations = Reservation.objects.all()
+
+    return render(
+        request,
+        &quot;view_hotel.html&quot;,
+        {
+            &quot;hotel&quot;: hotel,
+            &quot;rooms&quot;: rooms,
+            &quot;reviews&quot;: reviews,
+            &quot;reservations&quot;: reservations,
+        },
+    )
+</code></pre>
+<p>Описание: Этот view отображает страницу просмотра отеля. Он получает объект отеля по идентификатору, затем извлекает все комнаты отеля и отзывы о нем из базы данных. Также он формирует диапазон последнего месяца и извлекает все бронирования за этот период. Затем он передает объекты отеля, комнат, отзывов и бронирований в шаблон "view_hotel.html".</p>
+<h4 id="create_roomrequest-hotel_pk">create_room(request, hotel_pk)</h4>
+<pre><code class="language-python">@login_required(login_url=&quot;login&quot;)
+def create_room(request, hotel_pk):
+    hotel = Hotel.objects.get(pk=hotel_pk)
+    if request.method == &quot;POST&quot;:
+        form = RoomForm(request.POST)
+        if form.is_valid():
+            room = form.save(commit=False)
+            room.hotel = hotel
+            room.save()
+            return redirect(&quot;view_hotel&quot;, pk=hotel.pk)
+    else:
+        form = RoomForm()
+    return render(request, &quot;create_room.html&quot;, {&quot;form&quot;: form, &quot;hotel&quot;: hotel})
+</code></pre>
+<p>Описание: Этот view позволяет пользователю создать новый номер в отеле. Если запрос метод POST, то форма формируется из данных запроса и проверяется на валидность. Если форма действительна, создается новый объект Room связанный с объектом отеля и сохраняется в базе данных, затем пользователь перенаправляется на страницу просмотра отеля. Если запрос метод GET, то отображается шаблон "create_room.html" с передачей формы и объекта отеля в шаблон.</p>
+<h4 id="book_roomrequest-hotel_pk">book_room(request, hotel_pk)</h4>
+<pre><code class="language-python">@login_required(login_url=&quot;login&quot;)
+def book_room(request, hotel_pk):
+    if request.method == &quot;POST&quot;:
+        room_id = request.POST[&quot;room_id&quot;]
+        start_date = request.POST[&quot;start_date&quot;]
+        end_date = request.POST[&quot;end_date&quot;]
+
+        hotel = Hotel.objects.get(pk=hotel_pk)
+
+        reservation = Reservation(
+            hotel=hotel,
+            user=request.user,
+            room_id=room_id,
+            start_date=start_date,
+            end_date=end_date,
+        )
+        reservation.save()
+
+        room = Room.objects.get(id=room_id)
+        room.available = False
+        room.save()
+
+        return redirect(&quot;reservation_success&quot;)
+    else:
+        hotel = Hotel.objects.get(pk=hotel_pk)
+        rooms = Room.objects.filter(hotel=hotel)
+        return render(
+            request, &quot;room_reservation.html&quot;, {&quot;hotel&quot;: hotel, &quot;rooms&quot;: rooms}
+        )
+</code></pre>
+<p>Описание: Этот view позволяет пользователю забронировать номер в отеле. Если запрос метод POST, то извлекаются данные о выбранном номере и детали бронирования из данных запроса. Создается новый объект Reservation с этими данными и сохраняется в базе данных. Затем обновляется доступность комнаты. Пользователь перенаправляется на страницу успешного бронирования. Если запрос метод GET, то отображается шаблон "room_reservation.html" с передачей объекта отеля и списка комнат в шаблон.</p>
+<h4 id="reservation_successrequest">reservation_success(request)</h4>
+<pre><code class="language-python">def reservation_success(request):
+    return render(request, &quot;reservation_success.html&quot;)
+</code></pre>
+<p>Описание: Этот view отображает страницу успешного бронирования. Он отображает шаблон "reservation_success.html".</p>
+<h4 id="registerrequest">register(request)</h4>
+<pre><code class="language-python">def register(request):
+    if request.method == &quot;POST&quot;:
+        form = UserCreationForm(request.POST)
+        print(form)
+        if form.is_valid():
+            form.save()
+            return redirect(&quot;login&quot;)
+        print(form)
+    else:
+        form = UserCreationForm()
+    return render(request, &quot;accounts/register.html&quot;, {&quot;form&quot;: form})
+</code></pre>
+<p>Описание: Этот view позволяет пользователю зарегистрироваться. Если запрос метод POST, то форма формируется из данных запроса и проверяется на валидность. Если форма действительна, создается новый объект пользователя и сохраняется в базе данных, затем пользователь перенаправляется на страницу входа. Если запрос метод GET, то отображается шаблон "accounts/register.html" с передачей формы в шаблон.</p>
+<h4 id="login_viewrequest">login_view(request)</h4>
+<pre><code class="language-python">def login_view(request):
+    if request.method == &quot;POST&quot;:
+        username = request.POST[&quot;username&quot;]
+        password = request.POST[&quot;password&quot;]
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect(&quot;/&quot;)
+        else:
+            return redirect(&quot;login&quot;)
+    return render(request, &quot;accounts/login.html&quot;)
+</code></pre>
+<p>Описание: Этот view позволяет пользователю войти в систему. Если запрос метод POST, то извлекаются имя пользователя и пароль из данных запроса. Вход выполняется вызовом функции аутентификации и, при успешном входе, пользователь перенаправляется на домашнюю страницу. В случае неудачи, пользователь перенаправляется на страницу входа. Если запрос метод GET, то отображается шаблон "accounts/login.html".</p>
+<h4 id="logout_viewrequest">logout_view(request)</h4>
+<pre><code class="language-python">@login_required(login_url=&quot;login&quot;)
+def logout_view(request):
+    logout(request)
+    return redirect(&quot;login&quot;)
+</code></pre>
+<p>Описание: Этот view позволяет пользователю выйти из системы.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../urls/" class="btn btn-neutral float-left" title="Urls"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../urls/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
