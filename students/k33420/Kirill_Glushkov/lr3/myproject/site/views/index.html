@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Views - My Documentation for lab 3</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Views";
+        var mkdocs_page_input_path = "views.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> My Documentation for lab 3
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../models/">Models</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../urls/">Urls</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Views</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#_1">Эндпоинты и Описание</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#_2">Получить Стоимость По Дате И Врачу</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_3">Получить Количество Приемов Пациентов По Датам</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_4">Получить Список Оплативших Пациентов</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_5">Получить Всех Докторов</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_6">Получить Пациентов По Имени Врача</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_7">Посчитать Количество Пациентов Оториноларинголога</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_8">Получить Врачей По Рабочим Дням</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_9">Получить Всех Пациентов</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#_10">Получить Отчет О Визитах</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../warriors_endpoints/">Lab3.1</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">My Documentation for lab 3</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Views</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="django-rest-framework">Отчет по коду Django REST Framework на русском языке</h1>
+<p>В данном отчете описываются эндпоинты, использованные в проекте с использованием Django REST Framework (DRF). В каждой функции применяется декоратор <code>@api_view</code> для обработки HTTP запросов. Ниже представлены реализованные API-эндпоинты и их назначение:</p>
+<h2 id="_1">Эндпоинты и Описание</h2>
+<h3 id="_2">Получить Стоимость По Дате И Врачу</h3>
+<ul>
+<li>Путь: <code>/cost-by-date/</code></li>
+<li>Метод: <code>GET</code></li>
+<li>Параметры: <code>doctor_id</code>, <code>date</code></li>
+<li>Описание: Вычисляет суммарную стоимость лечения пациентов по заданному врачу или дате.</li>
+</ul>
+<h3 id="_3">Получить Количество Приемов Пациентов По Датам</h3>
+<ul>
+<li>Путь: <code>/patients-by-date/</code></li>
+<li>Метод: <code>GET</code></li>
+<li>Параметры: <code>date</code></li>
+<li>Описание: Получает количество приемов пациентов по определенной дате или группирует данные по датам.</li>
+</ul>
+<h3 id="_4">Получить Список Оплативших Пациентов</h3>
+<ul>
+<li>Путь: <code>/list-patients-paid/</code></li>
+<li>Метод: <code>GET</code></li>
+<li>Описание: Возвращает список пациентов, которые уже оплатили лечение.</li>
+</ul>
+<h3 id="_5">Получить Всех Докторов</h3>
+<ul>
+<li>Путь: <code>/doctors/</code></li>
+<li>Метод: <code>GET</code></li>
+<li>Описание: Возвращает информацию обо всех докторах.</li>
+</ul>
+<h3 id="_6">Получить Пациентов По Имени Врача</h3>
+<ul>
+<li>Путь: <code>/doctor-patients/</code></li>
+<li>Метод: <code>GET</code></li>
+<li>Параметры: <code>name</code></li>
+<li>Описание: Возвращает список пациентов по имени врача, учитывая возможность URL-кодирования кириллицы.</li>
+</ul>
+<h3 id="_7">Посчитать Количество Пациентов Оториноларинголога</h3>
+<ul>
+<li>Путь: <code>/numbers-of-patients-otorhinolaryngologist/</code></li>
+<li>Метод: <code>GET</code></li>
+<li>Описание: Возвращает количество пациентов у врачей-оториноларингологов, рожденных после 1987 года.</li>
+</ul>
+<h3 id="_8">Получить Врачей По Рабочим Дням</h3>
+<ul>
+<li>Путь: <code>/doctor-by-day/</code></li>
+<li>Метод: <code>GET</code></li>
+<li>Параметры: <code>day</code></li>
+<li>Описание: Отображает врачей, у которых в рабочие дни есть конкретно указанный день.</li>
+</ul>
+<h3 id="_9">Получить Всех Пациентов</h3>
+<ul>
+<li>Путь: <code>/patients/</code></li>
+<li>Метод: <code>GET</code></li>
+<li>Описание: Возвращает информацию о всех пациентах.</li>
+</ul>
+<h3 id="_10">Получить Отчет О Визитах</h3>
+<ul>
+<li>Путь: <code>/visit-report/</code></li>
+<li>Метод: <code>GET</code></li>
+<li>Параметры: <code>start_date</code>, <code>end_date</code></li>
+<li>Описание: Возвращает отчет о работе врачей за указанный период времени, включая список пациентов, их диагнозы и стоимость услуг.</li>
+</ul>
+<p>Каждый из этих методов использует определенные модели (<code>ClinicRoom</code>, <code>MedicalCard</code>, <code>Patient</code>, <code>Visit</code>, <code>Doctor</code>) и сериализаторы (<code>ClinicRoomSerializer</code>, <code>DoctorSerializer</code>, <code>PatientSerializer</code>) для обработки данных и формирования ответов в формате JSON. В коде также встречается управление через Django QuerySets и фильтрация данных с помощью Q-объектов для сложных условий запросов.</p>
+<p>Дополнительно в коде настроено логирование для отслеживания событий в рамках текущего модуля:</p>
+<pre><code class="language-python">logger = logging.getLogger(__name__)
+</code></pre>
+<p>Представленный код демонстрирует распространенные практики работы с API в Django REST Framework, включая получение данных из GET-параметров запросов и динамическое формирование наборов данных на основе этих параметров.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../urls/" class="btn btn-neutral float-left" title="Urls"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../warriors_endpoints/" class="btn btn-neutral float-right" title="Lab3.1">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../urls/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../warriors_endpoints/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

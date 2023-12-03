@@ -1,0 +1,9 @@
+site_name: My Documentation for lab 3
+nav:
+  - Home: index.md
+  - Models: models.md
+  - Urls: urls.md
+  - Views: views.md
+  - Lab3.1: warriors_endpoints.md
+
+theme: readthedocs
