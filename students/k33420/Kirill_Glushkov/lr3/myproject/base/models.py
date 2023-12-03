@@ -34,6 +34,7 @@ class Patient(models.Model):
     last_name = models.CharField(max_length=40)
     middle_name = models.CharField(max_length=40)
     date_of_birth = models.DateField()
+    phone_number = models.CharField(max_length=40, default=89955991820)
 
     class Meta:
         db_table = 'Patient'

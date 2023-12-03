@@ -3,35 +3,45 @@ from base.models import ClinicRoom, MedicalCard, Patient, Visit, Doctor
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.db.models import Count, Sum
-from .serializers import DoctorSerializer, PatientSerializer
+from .serializers import ClinicRoomSerializer, DoctorSerializer, PatientSerializer
+import urllib.parse
+from django.db.models import Q
 
+import logging
 
+# Create a logger instance with the name of the current module
+logger = logging.getLogger(__name__)
 @api_view(['GET'])
-def getCostByDate(req):
+def getCostByDateNDoctor(req):
     #  Вычислить суммарную стоимость лечения пациентов по дням и по врачам.
     # by given doctor or day, count payment in visit model
 
+    # /cost-by-date/?date=1962-10-27
+    # /cost-by-date/?doctor_id=1
+
     doctor_id = req.query_params.get('doctor_id', None)
     date = req.query_params.get('date', None)
-    queryset = MedicalCard.objects.all()
+    queryset = Visit.objects.all()
 
     if doctor_id is not None:
         queryset = queryset.filter(id=doctor_id)
     if date is not None:
-        queryset = queryset.filter(visit_date=date)
+        queryset = queryset.filter(date_of_visit=date)
 
-    cost_by_date = queryset.values('visit_date').annotate(total_cost=Sum('payment'))
+    cost_by_date = queryset.values('date_of_visit').annotate(total_cost=Sum('payment'))
     return Response(cost_by_date, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
 def getPatientsByDate(req):
     # Количество приемов пациентов по датам.
+
+    # /patients-by-date/?date=1962-10-27
     date = req.query_params.get('date', None)
     if date is not None:
-        patients_count_by_date = MedicalCard.objects.filter(visit_date=date).count()
+        patients_count_by_date = Visit.objects.filter(date_of_visit=date).count()
     else:
-        patients_count_by_date = MedicalCard.objects.all().values('visit_date').annotate(count=Count('patient'))
+        patients_count_by_date = Visit.objects.all().values('date_of_visit').annotate(count=Count('patient'))
     
     return Response(patients_count_by_date, status=status.HTTP_200_OK)
 
@@ -40,7 +50,7 @@ def getListPatientsPaid(req):
     # Список пациентов, уже оплативших лечение.
     # iterate thru medicalCard and find patients who made payment, retrieve ids, and then return 
     # from Patient all info 
-    paid_patients = MedicalCard.objects.exclude(payment__exact='0').values_list('patient', flat=True)
+    paid_patients = Visit.objects.exclude(payment__exact='0').values_list('patient', flat=True)
     patients = Patient.objects.filter(id__in=paid_patients)
     serializer = PatientSerializer(patients, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
@@ -53,13 +63,16 @@ def getDoctors(req):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-def getDoctorPatients(req):
-    #retrieve all patients of given doctor name, then go to model class MedicalCard(models.Model):
+def getPatientsbyDoctorName(req):
+    #retrieve all patients of given doctor name, then go to model class MedicalCard(models.Model):\
+
+    # http://127.0.0.1:8000/doctor-patients/?name=%D0%9C%D0%B0%D0%BA%D1%81%D0%B8%D0%BC
     doctor_name = req.query_params.get('name', None)
-    if doctor_name:
-        doctor = Doctor.objects.filter(Q(first_name__icontains=doctor_name) | Q(last_name__icontains=doctor_name)).first()
+    decoded_str = urllib.parse.unquote(doctor_name)
+    if decoded_str:
+        doctor = Doctor.objects.filter(Q(first_name__icontains=decoded_str) | Q(last_name__icontains=decoded_str)).first()
         if doctor:
-            medical_records = MedicalCard.objects.filter(doctor=doctor).values('visit_date', 'payment')
+            medical_records = Visit.objects.filter(doctor=doctor).values('date_of_visit', 'payment')
             return Response(medical_records, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -81,11 +94,13 @@ def getNumbersOfPatientsOtoronginolog(req):
 def getDoctorByDay(req):
     # Вывести список врачей, в графике которых среди рабочих дней имеется
     # заданный.
+    # /doctor-by-day/?day=Пятница
     day = req.query_params.get('day', None)
-    if day:
-        clinic_rooms = ClinicRoom.objects.filter(working_days__contains=[day])
-        doctors = [room.responsible_person for room in clinic_rooms]
-        serializer = DoctorSerializer(doctors, many=True)
+    decoded_str = urllib.parse.unquote(day)
+    if decoded_str:
+        clinic_rooms = ClinicRoom.objects.filter(working_days__contains=[decoded_str])
+        # doctors = [room.responsible_person for room in clinic_rooms]
+        serializer = ClinicRoomSerializer(clinic_rooms, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -101,12 +116,14 @@ def getVisitReport(req):
     # Отчет о работе врачей в заданный промежуток времени с указанием списка
     #принятых пациентов, их диагноза и стоимости услуг с вычислением
     #суммарного дохода по каждому врачу.
+
+    # /visit-report/?start_date=1956-01-01&end_date=2023-02-01 
     start_date = req.query_params.get('start_date')
     end_date = req.query_params.get('end_date')
 
     if start_date and end_date:
-        medical_cards = MedicalCard.objects.filter(visit_date__range=[start_date, end_date])
-        report_data = medical_cards.values('doctor').annotate(
+        visit = Visit.objects.filter(date_of_visit__range=[start_date, end_date])
+        report_data = visit.values('doctor').annotate(
             total_income=Sum('payment'),
             patients=Count('patient'),
         ).order_by('doctor')
